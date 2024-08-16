@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: edu-tracker-professor
+  datasource:
+    url: #your DB url
+    username: #your DB username
+    password: #your DB password
+  jpa:
+    generate-ddl: true
+    show-sql: true
+
+server:
+  servlet:
+    context-path: /edu-tracker/teach/
+
+minio:
+  accessKey: #your minio access key
+  secretKey: #your minio secret key
+  endpoint: #your minio endpoint
