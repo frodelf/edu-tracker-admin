@@ -265,14 +265,6 @@ function cleanInputs() {
     }
     $("#goal").css("border", "")
 }
-
-function toSelect2(selectId) {
-    $(selectId).select2({
-        placeholder: "Виберіть об'єкт",
-        minimumResultsForSearch: Infinity
-    })
-}
-
 function forSelect2(selectId, url, id, text) {
     $(selectId).select2({
         width: '100%',
@@ -297,16 +289,12 @@ function forSelect2(selectId, url, id, text) {
     }
 }
 
-function forSelect2WithSearchAndPageable(selectId, url, selectedItemId) {
+function forSelect2WithSearchAndPageable(selectId, url, id, text) {
     $(selectId).select2({
-        //TODO доробити пошук
-        minimumResultsForSearch: Infinity,
-        placeholder: "виберіть об'єкт",
         ajax: {
             type: "Get",
             url: url,
             dataType: 'json',
-            delay: 1500,
             data: function (params) {
                 var number = params.page > 0 ? params.page - 1 : 0
                 return {
@@ -329,11 +317,12 @@ function forSelect2WithSearchAndPageable(selectId, url, selectedItemId) {
                     }
                 }
             },
-            cache: true
         }
     });
-    if (selectedItemId) $(selectId).val(selectedItemId).trigger('change')
-}
+    if (text && id) {
+        $(selectId).append(new Option(text.toString(), id.toString(), true, true));
+        $(selectId).trigger('change');
+    }}
 
 function validSelect2(select) {
     if (!select.val() || (Array.isArray(select.val()) && select.val().length === 0)) {

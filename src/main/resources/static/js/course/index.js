@@ -38,6 +38,7 @@ function getPageWithFilter(page) {
 }
 
 function addBlock(course) {
+    var image = course.image || contextPath+"img/default.png"
     return `
         <div class="col-lg-6 col-md-12">
             <div class="card">
@@ -49,7 +50,7 @@ function addBlock(course) {
                             Ціль курсу: ${course.goal}
                         </div>
                         <div class="col-3" style="padding-right: 0">
-                            <img src="${course.image}" width="90%" height="90px" style="margin-top: 10px" class="float-end">
+                            <img src="${image}" width="90%" height="90px" style="margin-top: 10px" class="float-end">
                         </div>
                     </div>
                 </div>

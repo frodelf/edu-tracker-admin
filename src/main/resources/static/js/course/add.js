@@ -9,15 +9,31 @@ const snowEditor = new Quill('#goal', {
 })
 
 if (course) {
+    var image = course.image || contextPath+"img/default.png"
+
+    $("#add-student-button").remove()
     courseId = course.id
     $("#name").val(course.name)
     $("#maximumMark").val(course.maximumMark)
     var delta = snowEditor.clipboard.convert(course.goal)
     snowEditor.setContents(delta)
-    console.log(course)
-    $('#image-preview').attr("src", course.image)
+    $('#image-preview').attr("src", image)
+    forSelect2WithSearchAndPageable("#professorId", contextPath + "professor/get-for-select", course.professorId, course.professorName)
+}
+else {
+    forSelect2WithSearchAndPageable("#professorId", contextPath + "professor/get-for-select")
 }
 document.addEventListener('DOMContentLoaded', function () {
+    $('#maximumMark').on('input', function() {
+        var value = parseInt($(this).val(), 10);
+
+        if (value < 1) {
+            $(this).val(1);
+        } else if (value > 100) {
+            $(this).val(100);
+        }
+    });
+
     document.getElementById('cancel').onclick = function () {
         window.location.href = contextPath + 'course'
     }
@@ -41,6 +57,11 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 function save() {
+
+    if((!($("#groupForStudentAdding").val()) || $("#groupForStudentAdding").val().length==0) && !course) {
+            showErrorToast("Виберіть групу")
+            return
+    }
     showLoader("content-form")
     let formData = new FormData()
     if(courseId)formData.append("id", courseId)
@@ -50,6 +71,9 @@ function save() {
     if($("#image")[0].files[0]){
         formData.append("image", $("#image")[0].files[0])
     }
+    if(!course)formData.append("groups", $("#groupForStudentAdding").val())
+    formData.append("professorId", $("#professorId").val())
+    formData.append("isForChoosing", $('#isForChoosing').is(':checked'))
 
     $.ajax({
         url: contextPath + 'course/add',
@@ -88,12 +112,10 @@ function showModalForAddStudentStepFirst() {
                     </div>
                     <div class="modal-body">
                         Група
-                        <select id="groupForStudentAdding"></select>
-                        Курс
-                        <select id="coursesForStudentAdding"></select>
+                        <select id="groupForStudentAdding" multiple></select>
                     </div>
                     <div class="modal-footer">
-                        <button class="float-end btn btn-primary" onclick="searchStudent()">Шукати</button>
+                        <button class="float-end btn btn-primary" onclick="addGroupsToCourse()">Додати</button>
                     </div>
                 </div>
             </div>
@@ -101,122 +123,13 @@ function showModalForAddStudentStepFirst() {
     `;
     document.body.appendChild(modalBlock);
     $('#ModalForAddStudentStepFirst').modal('show');
-    forSelect2("#coursesForStudentAdding", contextPath + "course/get-for-select")
     forSelect2WithSearchAndPageable("#groupForStudentAdding", contextPath + "student/get-group-for-select")
 }
-
-function searchStudent() {
+function addGroupsToCourse(){
     cleanInputs()
-    var valid = true
-    if (!($("#groupForStudentAdding").val())) {
+    if ($("#groupForStudentAdding").val().length==0) {
         validSelect2($("#groupForStudentAdding"))
-        valid = false
+        return
     }
-    if(!valid)return
-
     $('#ModalForAddStudentStepFirst').modal('hide');
-    showModalForAddStudentStepSecond($("#groupForStudentAdding").val(), )
-}
-
-function activateAllCheckbox(checkbox) {
-    if (checkbox.checked) {
-        console.log("asd")
-        $(".for-student-adding").prop('checked', true);
-    } else {
-        console.log("asdddddd")
-        $(".for-student-adding").prop('checked', false);
-    }
-}
-function showModalForAddStudentStepSecond(group, courseId) {
-    $.ajax({
-        url: contextPath + 'student/get-all-by-group-and-course',
-        data: {
-            group: group,
-            courseId: courseId
-        },
-        success: function (students) {
-            console.log(students)
-            if ($('#ModalForAddStudentStepSecond').html()) $('#ModalForAddStudentStepSecond').remove()
-
-            var modalBlock = document.createElement('div');
-            modalBlock.innerHTML = `
-        <div class="modal fade" id="ModalForAddStudentStepSecond" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Студенти</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped linkedRow"
-                                           id="tableForStudentAdd" style="table-layout: fixed;">
-                                        <thead>
-                                        <tr>
-                                        <th>Група</th>
-                                        <th>Назва</th>
-                                        <th><center><input type="checkbox" onclick="activateAllCheckbox(this)" class="form-check-input"></center></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="float-end btn btn-primary" onclick="addStudentToCourse(${courseId})">Додати</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `
-            document.body.appendChild(modalBlock)
-            $('#ModalForAddStudentStepSecond').modal('show')
-
-            var table = document.getElementById("tableForStudentAdd")
-            var tbody = table.querySelector("tbody")
-            $('#tableForStudentAdd tbody').empty()
-            for (const student of students) {
-                var newRow = tbody.insertRow()
-                var cell0 = newRow.insertCell(0)
-                cell0.innerHTML = `${student.groupName}`
-
-                var cell1 = newRow.insertCell(1)
-                cell1.innerHTML = `<a href="${contextPath}student/${student.id}">${student.fullName}</a>`
-
-                var cell2 = newRow.insertCell(2)
-                cell2.innerHTML = `<center><input type="checkbox" id="student${student.id}" class="form-check-input for-student-adding" ${student.present == true ? 'checked'  : ''}></center>`
-            }
-        },
-    })
-}
-function addStudentToCourse(courseId) {
-    var formData = new FormData();
-    document.querySelectorAll('.for-student-adding').forEach(function(input) {
-        var studentId = input.id.replace("student", "");
-        formData.append(studentId, input.checked);
-    });
-
-    formData.append("courseId", courseId);
-
-    $.ajax({
-        url: contextPath + 'student/add-to-course',
-        type: 'POST',
-        headers: {'X-XSRF-TOKEN': csrf_token},
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function () {
-            showToastForSave()
-            $('#ModalForAddStudentStepSecond').modal('hide')
-            getPageWithFilter(page)
-        },
-        error: function (error) {
-            console.error('Error:', error);
-        }
-    });
 }

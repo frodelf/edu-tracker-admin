@@ -27,7 +27,7 @@
                 <div>Студенти</div>
             </a>
         </li>
-        <li th:class="'menu-item ' + ${taskActive != null ? 'active' : ''}" th:hidden="${manager.isMainAdmin}">
+        <li th:class="'menu-item ' + ${taskActive != null ? 'active' : ''}" th:hidden="${!manager.isMainAdmin}">
             <a th:href="@{/manager}" class="menu-link">
                 <i class="menu-icon fa-solid fa-list-check"></i>
                 <div>Менеджери</div>

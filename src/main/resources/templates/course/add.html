@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/assets/vendor/libs/quill/typography.css}"/>
     <link rel="stylesheet" th:href="@{/assets/vendor/libs/quill/katex.css}"/>
     <link rel="stylesheet" th:href="@{/assets/vendor/libs/quill/editor.css}"/>
+
 </head>
 <body>
 <section layout:fragment="content">
@@ -33,12 +34,18 @@
                     <img id="image-preview" th:src="@{/img/default.png}" width="70%" height="auto">
                 </center>
                 <input id="image" accept=".png, .jpeg, .jpg" type="file" class="form-control mt-3 mb-3 check-image-extension">
+                Професор
+                <select id="professorId" class="form-select"></select>
+                <div class="mb-3"></div>
                 Назва курсу
                 <input id="name" class="form-control mb-3">
                 Максимальна можлива оцінка за курс
-                <input id="maximumMark" class="form-control mb-3">
+                <input id="maximumMark" class="form-control mb-3 onlyNumber">
             </div>
-            <div class="col-lg-6 col-sm-12" id="statistic"></div>
+            <div class="col-lg-6 col-sm-12" id="statistic">
+                <div class="row" id="add-student-button"><div class="col-12"> <button onclick="showModalForAddStudentStepFirst()" class="btn btn-outline-primary float-end">Додати студентів</button></div></div>
+                <div class="row mt-3"><div class="col-12"> <div class=" float-end">Вибірковий предмет <input type="checkbox" class="form-check-input" id="isForChoosing"></div></div></div>
+            </div>
         </div>
         Ціль курсу
         <div id="snow-toolbar">

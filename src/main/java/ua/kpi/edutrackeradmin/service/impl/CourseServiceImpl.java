@@ -17,6 +17,7 @@ import ua.kpi.edutrackeradmin.repository.CourseRepository;
 import ua.kpi.edutrackeradmin.service.CourseService;
 import ua.kpi.edutrackeradmin.service.MinioService;
 import ua.kpi.edutrackeradmin.service.ProfessorService;
+import ua.kpi.edutrackeradmin.service.StudentService;
 import ua.kpi.edutrackeradmin.specification.CourseSpecification;
 import ua.kpi.edutrackerentity.entity.Course;
 
@@ -25,6 +26,7 @@ import ua.kpi.edutrackerentity.entity.Course;
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final ProfessorService professorService;
+    private final StudentService studentService;
     private final MinioService minioService;
     private final CourseMapper courseMapper = new CourseMapper();
     @Override
@@ -46,9 +48,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @SneakyThrows
     public Long add(CourseRequestForAdd courseRequestForAdd) {
-        Course course = courseMapper.toEntityForAdd(courseRequestForAdd, this);
+        Course course = courseMapper.toEntityForAdd(courseRequestForAdd, this, professorService, studentService);
         if(courseRequestForAdd.getImage() != null)course.setImage(minioService.putMultipartFile(courseRequestForAdd.getImage()));
-        course.setProfessor(professorService.getById(courseRequestForAdd.getProfessorId()));
         return save(course).getId();
     }
     @Override

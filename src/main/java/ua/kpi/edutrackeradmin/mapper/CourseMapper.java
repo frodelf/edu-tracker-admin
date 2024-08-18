@@ -8,8 +8,13 @@ import ua.kpi.edutrackeradmin.dto.course.CourseResponseForAdd;
 import ua.kpi.edutrackeradmin.dto.course.CourseResponseViewAll;
 import ua.kpi.edutrackeradmin.service.CourseService;
 import ua.kpi.edutrackeradmin.service.MinioService;
+import ua.kpi.edutrackeradmin.service.ProfessorService;
+import ua.kpi.edutrackeradmin.service.StudentService;
 import ua.kpi.edutrackerentity.entity.Course;
+import ua.kpi.edutrackerentity.entity.Student;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -36,12 +41,21 @@ public class CourseMapper {
                 courses.getTotalElements()
         );
     }
-    public Course toEntityForAdd(CourseRequestForAdd requestAdd, CourseService courseService) {
+    public Course toEntityForAdd(CourseRequestForAdd requestAdd, CourseService courseService, ProfessorService professorService, StudentService studentService) {
         Course course = new Course();
-        if(requestAdd.getId() != null) course = courseService.getById(requestAdd.getId());
-        if(requestAdd.getName() != null) course.setName(requestAdd.getName());
-        if(requestAdd.getMaximumMark() != null) course.setMaximumMark(requestAdd.getMaximumMark());
-        if(requestAdd.getGoal() != null) course.setGoal(requestAdd.getGoal());
+        if(nonNull(requestAdd.getId())) course = courseService.getById(requestAdd.getId());
+        if(nonNull(requestAdd.getName())) course.setName(requestAdd.getName());
+        if(nonNull(requestAdd.getMaximumMark())) course.setMaximumMark(requestAdd.getMaximumMark());
+        if(nonNull(requestAdd.getGoal())) course.setGoal(requestAdd.getGoal());
+        if(nonNull(requestAdd.getIsForChoosing()))course.setIsForChoosing(requestAdd.getIsForChoosing());
+        if(nonNull(requestAdd.getProfessorId()))course.setProfessor(professorService.getById(requestAdd.getProfessorId()));
+        if(nonNull(requestAdd.getGroups())){
+            List<Student> students = new ArrayList<>();
+            for (String group : requestAdd.getGroups()) {
+                students.addAll(studentService.getAllStudentsByGroup(group));
+            }
+            course.setStudents(students);
+        }
         return course;
     }
     @SneakyThrows
@@ -51,7 +65,10 @@ public class CourseMapper {
         courseRequestForAdd.setName(course.getName());
         courseRequestForAdd.setMaximumMark(course.getMaximumMark());
         courseRequestForAdd.setGoal(course.getGoal());
-        courseRequestForAdd.setProfessorId(course.getProfessor().getId());
+        if(nonNull(course.getProfessor())){
+            courseRequestForAdd.setProfessorId(course.getProfessor().getId());
+            courseRequestForAdd.setProfessorName(course.getProfessor().getLastName()+" "+course.getProfessor().getName());
+        }
         if(nonNull(course.getImage()))courseRequestForAdd.setImage(minioService.getUrl(course.getImage()));
         return courseRequestForAdd;
     }

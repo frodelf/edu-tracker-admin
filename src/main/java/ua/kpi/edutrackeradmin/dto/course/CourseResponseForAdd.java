@@ -10,4 +10,5 @@ public class CourseResponseForAdd {
     private Double maximumMark;
     private String goal;
     private Long professorId;
+    private String professorName;
 }

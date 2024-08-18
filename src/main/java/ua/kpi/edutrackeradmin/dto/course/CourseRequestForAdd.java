@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 import ua.kpi.edutrackeradmin.validation.annotation.ImageExtension;
 
+import java.util.List;
+
 @Data
 public class CourseRequestForAdd {
     private Long id;
@@ -20,6 +22,8 @@ public class CourseRequestForAdd {
     @NotBlank(message = "{error.field.empty}")
     @Size(max = 1000, message = "{error.field.size.max}")
     private String goal;
-//    @NotNull(message = "{error.field.empty}")
-    private Long professorId = 1L;
+    private List<String> groups;
+    @NotNull(message = "{error.field.empty}")
+    private Long professorId;
+    private Boolean isForChoosing;
 }
