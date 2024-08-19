@@ -20,6 +20,7 @@ import ua.kpi.edutrackeradmin.service.ProfessorService;
 import ua.kpi.edutrackeradmin.service.StudentService;
 import ua.kpi.edutrackeradmin.specification.CourseSpecification;
 import ua.kpi.edutrackerentity.entity.Course;
+import ua.kpi.edutrackerentity.entity.enums.StatusCourse;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +59,8 @@ public class CourseServiceImpl implements CourseService {
     }
     @Override
     public void removeById(long id) {
-        courseRepository.deleteById(id);
+        Course course = getById(id);
+        course.setStatusCourse(StatusCourse.DISABLE);
+        save(course);
     }
 }

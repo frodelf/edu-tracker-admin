@@ -7,7 +7,7 @@ public interface ManagerService {
     Manager getByEmailForAuth(String email);
     Manager getByEmail(String email);
     boolean isAuthenticated();
-    ManagerResponseForGlobal getAuthProfessorForGlobal();
+    ManagerResponseForGlobal getAuthManagerForGlobal();
     Manager getAuthManager();
     Manager save(Manager manager);
 }

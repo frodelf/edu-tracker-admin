@@ -13,6 +13,6 @@ public class GlobalController {
 
     @ModelAttribute("manager")
     public ManagerResponseForGlobal globalTeamLeadAttribute() {
-        return managerService.getAuthProfessorForGlobal();
+        return managerService.getAuthManagerForGlobal();
     }
 }

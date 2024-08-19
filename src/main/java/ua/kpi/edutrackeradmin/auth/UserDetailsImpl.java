@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.kpi.edutrackerentity.entity.Manager;
 import ua.kpi.edutrackerentity.entity.Professor;
+import ua.kpi.edutrackerentity.entity.enums.Role;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -20,6 +23,7 @@ public class UserDetailsImpl implements UserDetails {
     private String name;
     private String password;
     private Manager manager;
+    private Collection<? extends GrantedAuthority> authorities;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -38,11 +42,9 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
     public UserDetailsImpl getUserDetailsByUsers(Manager manager){
-        return new UserDetailsImpl(manager.getId(), manager.getEmail(), manager.getName(), manager.getPassword(), manager);
+        return new UserDetailsImpl(manager.getId(), manager.getEmail(), manager.getName(), manager.getPassword(), manager, getAuthorities(manager.getRole()));
     }
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+    private Collection<? extends GrantedAuthority> getAuthorities(Role role) {
+        return Collections.singleton(new SimpleGrantedAuthority(role.name()));
     }
-
 }

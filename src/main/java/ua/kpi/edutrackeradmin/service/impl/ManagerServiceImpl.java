@@ -56,7 +56,7 @@ public class ManagerServiceImpl implements ManagerService {
         return managerRepository.save(manager);
     }
     @Override
-    public ManagerResponseForGlobal getAuthProfessorForGlobal() {
+    public ManagerResponseForGlobal getAuthManagerForGlobal() {
         try {
             return managerMapper.toDtoForGlobal(getAuthManager());
         }catch (InsufficientAuthenticationException e){

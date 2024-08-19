@@ -3,8 +3,8 @@ var fullContextPath = 'http://localhost:8080/edu-tracker/teach/';
 
 $(document).ready(function () {
     //TODO Видалити це///////////////////////////////
-    $("#username").val("manager@gmail.com")
-    $("#password").val("manager")
+    $("#username").val("admin@gmail.com")
+    $("#password").val("admin")
     $("#login").click()
     /////////////////////////////////////////////////
 
