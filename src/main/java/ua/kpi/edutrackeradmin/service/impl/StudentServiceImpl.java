@@ -1,9 +1,15 @@
 package ua.kpi.edutrackeradmin.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ua.kpi.edutrackeradmin.dto.ForSelect2Dto;
 import ua.kpi.edutrackeradmin.dto.student.StudentRequestForFilter;
 import ua.kpi.edutrackeradmin.dto.student.StudentResponseForViewAll;
@@ -15,6 +21,7 @@ import ua.kpi.edutrackeradmin.specification.StudentSpecification;
 import ua.kpi.edutrackerentity.entity.Course;
 import ua.kpi.edutrackerentity.entity.Student;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,5 +54,22 @@ public class StudentServiceImpl implements StudentService {
         Pageable pageable = PageRequest.of(studentRequestForFilter.getPage(), studentRequestForFilter.getPageSize(), Sort.by(Sort.Order.desc("id")));
         Specification<Student> specification = new StudentSpecification(studentRequestForFilter);
         return studentMapper.toDtoList(studentRepository.findAll(specification, pageable));
+    }
+    @Override
+    @Transactional
+    public void addAllFromFile(MultipartFile multipartFile) throws IOException {
+        Workbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+        long index = 0;
+        for (Row row : sheet) {
+            try {
+                System.out.println(row);
+            }catch (Exception e){
+                System.err.println(e.getLocalizedMessage());
+                System.err.println(e.getMessage());
+                break;
+            }
+        }
+        workbook.close();
     }
 }
