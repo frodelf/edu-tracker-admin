@@ -1,4 +1,4 @@
-package ua.kpi.edutrackeradmin.dto;
+package ua.kpi.edutrackeradmin.dto.manager;
 
 import lombok.Data;
 

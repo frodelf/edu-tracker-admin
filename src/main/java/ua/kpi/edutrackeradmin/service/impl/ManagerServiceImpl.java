@@ -3,16 +3,25 @@ package ua.kpi.edutrackeradmin.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ua.kpi.edutrackeradmin.dto.ManagerResponseForGlobal;
+import ua.kpi.edutrackeradmin.dto.manager.ManagerResponseForGlobal;
+import ua.kpi.edutrackeradmin.dto.manager.ManagerRequestForAdd;
+import ua.kpi.edutrackeradmin.dto.manager.ManagerRequestForFilter;
+import ua.kpi.edutrackeradmin.dto.manager.ManagerResponseForViewAll;
 import ua.kpi.edutrackeradmin.mapper.ManagerMapper;
 import ua.kpi.edutrackeradmin.repository.ManagerRepository;
 import ua.kpi.edutrackeradmin.service.ManagerService;
+import ua.kpi.edutrackeradmin.specification.ManagerSpecification;
 import ua.kpi.edutrackerentity.entity.Manager;
 
 @Service
@@ -54,6 +63,25 @@ public class ManagerServiceImpl implements ManagerService {
     @Transactional
     public Manager save(Manager manager) {
         return managerRepository.save(manager);
+    }
+
+    @Override
+    public Page<ManagerResponseForViewAll> getAll(ManagerRequestForFilter managerRequestForFilter) {
+        Pageable pageable = PageRequest.of(managerRequestForFilter.getPage(), managerRequestForFilter.getPageSize(), Sort.by(Sort.Order.desc("id")));
+        Specification<Manager> specification = new ManagerSpecification(managerRequestForFilter);
+        return managerMapper.toDtoList(managerRepository.findAll(specification, pageable));
+    }
+
+    @Override
+    @Transactional
+    public Long add(ManagerRequestForAdd managerRequestForAdd) {
+        return save(managerMapper.toEntityForAdd(managerRequestForAdd, this)).getId();
+    }
+    @Override
+    public Manager getById(Long id) {
+        return managerRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Manager with id = "+id+" not found")
+        );
     }
     @Override
     public ManagerResponseForGlobal getAuthManagerForGlobal() {

@@ -1,11 +1,11 @@
-package ua.kpi.edutrackeradmin.dto.student;
+package ua.kpi.edutrackeradmin.dto.manager;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class StudentRequestForFilter {
+public class ManagerRequestForFilter {
     @Min(value = 0, message = "{error.field.min-value}")
     private Integer page;
     @Min(value = 1, message = "{error.field.min-value}")

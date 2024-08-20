@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
+import static ua.kpi.edutrackeradmin.validation.ValidUtil.notNullAndBlank;
 
 public class CourseMapper {
     @SneakyThrows
@@ -44,9 +45,9 @@ public class CourseMapper {
     public Course toEntityForAdd(CourseRequestForAdd requestAdd, CourseService courseService, ProfessorService professorService, StudentService studentService) {
         Course course = new Course();
         if(nonNull(requestAdd.getId())) course = courseService.getById(requestAdd.getId());
-        if(nonNull(requestAdd.getName())) course.setName(requestAdd.getName());
+        if(notNullAndBlank(requestAdd.getName()) && !requestAdd.getName().isBlank()) course.setName(requestAdd.getName());
         if(nonNull(requestAdd.getMaximumMark())) course.setMaximumMark(requestAdd.getMaximumMark());
-        if(nonNull(requestAdd.getGoal())) course.setGoal(requestAdd.getGoal());
+        if(notNullAndBlank(requestAdd.getGoal())) course.setGoal(requestAdd.getGoal());
         if(nonNull(requestAdd.getIsForChoosing()))course.setIsForChoosing(requestAdd.getIsForChoosing());
         if(nonNull(requestAdd.getProfessorId()))course.setProfessor(professorService.getById(requestAdd.getProfessorId()));
         if(nonNull(requestAdd.getGroups())){

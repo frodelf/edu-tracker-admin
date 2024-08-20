@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.nonNull;
+import static ua.kpi.edutrackeradmin.validation.ValidUtil.notNullAndBlank;
 
 public class StudentSpecification implements Specification<Student> {
     private final StudentRequestForFilter studentRequestForFilter;
@@ -19,7 +20,7 @@ public class StudentSpecification implements Specification<Student> {
     @Override
     public Predicate toPredicate(Root<Student> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
-        if (nonNull(studentRequestForFilter.getFullName())) {
+        if (notNullAndBlank(studentRequestForFilter.getFullName())) {
             predicates.add(
                     criteriaBuilder.like(
                             criteriaBuilder.concat(
@@ -45,13 +46,13 @@ public class StudentSpecification implements Specification<Student> {
                     )
             );
         }
-        if (nonNull(studentRequestForFilter.getEmail())) {
+        if (notNullAndBlank(studentRequestForFilter.getEmail())) {
             predicates.add(criteriaBuilder.like(root.get("email"), "%" + studentRequestForFilter.getEmail() + "%"));
         }
-        if (nonNull(studentRequestForFilter.getTelegram())) {
+        if (notNullAndBlank(studentRequestForFilter.getTelegram())) {
             predicates.add(criteriaBuilder.like(root.get("telegram"), "%" + studentRequestForFilter.getTelegram() + "%"));
         }
-        if (nonNull(studentRequestForFilter.getPhone())) {
+        if (notNullAndBlank(studentRequestForFilter.getPhone())) {
             predicates.add(criteriaBuilder.like(root.get("phone"), "%" + studentRequestForFilter.getPhone() + "%"));
         }
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

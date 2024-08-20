@@ -10,24 +10,54 @@
     <script th:inline="javascript">
         var csrf_token = /*[[${_csrf.token}]]*/ {};
     </script>
-    <!--    <script th:src="@{/js/course/index.js}"></script>-->
+    <script th:src="@{/js/manager/index.js}"></script>
 </head>
 <body>
 <section layout:fragment="content">
-    <!--    <div class="d-flex justify-content-between mt-2">-->
-    <!--        <h4>Курси</h4>-->
-    <!--        <nav style="&#45;&#45;bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="d-flex align-items-center">-->
-    <!--            <ol class="breadcrumb">-->
-    <!--                <li class="breadcrumb-item"><a th:href="@{/}">Головна</a></li>-->
-    <!--                <li class="breadcrumb-item active" aria-current="page">Курси</li>-->
-    <!--            </ol>-->
-    <!--        </nav>-->
-    <!--    </div>-->
-    <!--    <hr style="margin-top: 0"/>-->
-    <!--    <div id="courses"></div>-->
-    <!--    <ul class="pagination pagination-sm m-0 mt-1 mb-5" style="display: flex; justify-content: flex-end"-->
-    <!--        id="pagination_container">-->
-    <!--    </ul>-->
+    <div class="d-flex justify-content-between mt-2">
+        <h4>Менеджери</h4>
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="d-flex align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Головна</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Менеджери</li>
+            </ol>
+        </nav>
+    </div>
+    <hr style="margin-top: 0"/>
+    <div class="text-end">
+        <button class="btn btn-primary mb-4" onclick="showModalForAddManager()">Додати менеджера</button>
+        <div id="toast-container" class="toast-top-right"></div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped linkedRow" id="content-table"
+                       style="table-layout: fixed;">
+                    <thead>
+                    <tr>
+                        <th style="width: 200px">Менеджер</th>
+                        <th style="width: 200px">Email</th>
+                        <th style="width: 200px">Telegram</th>
+                        <th style="width: 200px">Телефон</th>
+                    </tr>
+                    <tr>
+                        <th><input class="form-control for-filter"></th>
+                        <th><input class="form-control for-filter"></th>
+                        <th><input class="form-control for-filter"></th>
+                        <th><input class="form-control for-filter"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <ul class="pagination pagination-sm m-0 mt-1" style="display: flex; justify-content: flex-end"
+                id="pagination_container">
+            </ul>
+        </div>
+    </div>
 </section>
 </body>
 </html>
