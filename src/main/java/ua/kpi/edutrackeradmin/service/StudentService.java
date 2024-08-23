@@ -16,4 +16,5 @@ public interface StudentService {
     List<Student> getAllStudentsByGroup(String groupName);
     Page<StudentResponseForViewAll> getAll(StudentRequestForFilter studentRequestForFilter);
     void addAllFromFile(MultipartFile multipartFile) throws IOException;
+    void save(Student student);
 }

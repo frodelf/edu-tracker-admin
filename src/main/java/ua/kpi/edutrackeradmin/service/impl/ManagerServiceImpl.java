@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.kpi.edutrackeradmin.dto.manager.ManagerResponseForGlobal;
 import ua.kpi.edutrackeradmin.dto.manager.ManagerRequestForAdd;
@@ -20,15 +21,19 @@ import ua.kpi.edutrackeradmin.dto.manager.ManagerRequestForFilter;
 import ua.kpi.edutrackeradmin.dto.manager.ManagerResponseForViewAll;
 import ua.kpi.edutrackeradmin.mapper.ManagerMapper;
 import ua.kpi.edutrackeradmin.repository.ManagerRepository;
+import ua.kpi.edutrackeradmin.service.EmailService;
 import ua.kpi.edutrackeradmin.service.ManagerService;
 import ua.kpi.edutrackeradmin.specification.ManagerSpecification;
 import ua.kpi.edutrackerentity.entity.Manager;
+
+import java.security.SecureRandom;
 
 @Service
 @RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
     private final ManagerMapper managerMapper = new ManagerMapper();
     private final ManagerRepository managerRepository;
+    private final EmailService emailService;
 
     @Override
     public Manager getByEmailForAuth(String email) {
@@ -75,7 +80,9 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     @Transactional
     public Long add(ManagerRequestForAdd managerRequestForAdd) {
-        return save(managerMapper.toEntityForAdd(managerRequestForAdd, this)).getId();
+        Manager manager = managerMapper.toEntityForAdd(managerRequestForAdd, this);
+        manager.setPassword(new BCryptPasswordEncoder().encode(generateAndSendPassword(manager.getEmail())));
+        return save(manager).getId();
     }
     @Override
     public Manager getById(Long id) {
@@ -90,5 +97,17 @@ public class ManagerServiceImpl implements ManagerService {
         }catch (InsufficientAuthenticationException e){
             return null;
         }
+    }
+    private String generateAndSendPassword(String email) {
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder(8);
+
+        for (int i = 0; i < 8; i++) {
+            int digit = random.nextInt(10);
+            password.append(digit);
+        }
+        String passwordText = password.toString();
+        emailService.sendEmail("password", passwordText, email);
+        return passwordText;
     }
 }

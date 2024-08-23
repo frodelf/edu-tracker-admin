@@ -27,12 +27,13 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function () {
+                showSuccessToast("Студентів збережено")
                 getPageWithFilter(page)
             },
             error: function (xhr, status, error) {
+                console.log(xhr.responseText)
                 if (xhr.status === 400) {
-                    cleanInputs()
-                    validDataFromResponse(xhr.responseJSON)
+                    showErrorToast(xhr.responseText)
                 } else {
                     console.error('Помилка відправки файлів на сервер:', error);
                 }
@@ -41,6 +42,7 @@ $(document).ready(function () {
                 hideLoader("content-table")
             }
         })
+        document.getElementById('fileInput').value = ""
     })
 
     getPageWithFilter(page)

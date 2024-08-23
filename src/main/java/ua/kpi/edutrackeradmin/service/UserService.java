@@ -10,6 +10,10 @@ public interface UserService {
     boolean validEmailByExist(ContactDataDto contactDataDto);
     boolean validTelegramByExist(ContactDataDto contactDataDto);
 
+    boolean existByPhone(String phone);
+    boolean existByTelegram(String telegram);
+    boolean existByEmail(String email);
+
     Optional<User> getByPhone(String phone);
     Optional<User> getByEmail(String email);
     Optional<User> getByTelegram(String telegram);
