@@ -30,6 +30,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean existByPhone(String phone) {
+        return userRepository.existsByPhone(phone);
+    }
+    @Override
+    public boolean existByTelegram(String telegram) {
+        return userRepository.existsByTelegram(telegram);
+    }
+    @Override
+    public boolean existByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
     public Optional<User> getByPhone(String phone) {
         return userRepository.findFirstByPhone(phone);
     }
