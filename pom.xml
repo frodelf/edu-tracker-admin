@@ -32,7 +32,7 @@
     <repositories>
         <repository>
             <id>github</id>
-            <url>https://github.com/frodelf/edu-tracker-entity</url>
+            <url>https://maven.pkg.github.com/frodelf/edu-tracker-entity</url>
         </repository>
     </repositories>
     <dependencies>
