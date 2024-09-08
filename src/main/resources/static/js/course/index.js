@@ -4,7 +4,6 @@ getPageWithFilter(page)
 function getPageWithFilter(page) {
     showLoader('courses')
     this.page = page
-    console.log($(".for-filter").val())
     var query = $('.for-filter').val() ? $('.for-filter').val() : null;
 
     $.ajax({

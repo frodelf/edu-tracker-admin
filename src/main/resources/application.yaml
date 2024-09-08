@@ -1,19 +1,26 @@
 spring:
   application:
-    name: edu-tracker-professor
+    name: edu-tracker-admin
   datasource:
-    url: #your DB url
-    username: #your DB username
-    password: #your DB password
+    url: ${DB_HOST}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     generate-ddl: true
     show-sql: true
 
 server:
   servlet:
-    context-path: /edu-tracker/teach/
+    context-path: /edu-tracker/admin/
+  port: 8081
 
 minio:
-  accessKey: #your minio access key
-  secretKey: #your minio secret key
-  endpoint: #your minio endpoint
+  accessKey: admin
+  secretKey: password
+  endpoint: http://minio:9000
+
+sendgrid:
+  api:
+    key: ${SG_KEY}
+    from: ${SG_FROM}

@@ -79,7 +79,6 @@ $(document).ready(function () {
             imageName: managerAuth.image
         },
         success: function (response) {
-            console.log(response)
             if(response){
                 $(".avatar-image").attr("src", response)
             }
