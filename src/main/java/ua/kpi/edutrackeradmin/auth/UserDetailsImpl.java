@@ -7,12 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.kpi.edutrackerentity.entity.Manager;
-import ua.kpi.edutrackerentity.entity.Professor;
-import ua.kpi.edutrackerentity.entity.enums.Role;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -44,7 +41,7 @@ public class UserDetailsImpl implements UserDetails {
     public UserDetailsImpl getUserDetailsByUsers(Manager manager){
         return new UserDetailsImpl(manager.getId(), manager.getEmail(), manager.getName(), manager.getPassword(), manager, getAuthorities(manager.getRole()));
     }
-    private Collection<? extends GrantedAuthority> getAuthorities(Role role) {
+    private Collection<? extends GrantedAuthority> getAuthorities(ua.kpi.edutrackerentity.entity.enums.Role role) {
         return Collections.singleton(new SimpleGrantedAuthority(role.name()));
     }
 }
