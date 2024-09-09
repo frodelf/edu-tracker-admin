@@ -15,6 +15,17 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
+      - name: Set up Maven settings
+        run: |
+          echo "<settings>
+                  <servers>
+                    <server>
+                      <id>github</id>
+                      <username>${{ secrets.GITHUB_ACTOR }}</username>
+                      <password>${{ secrets.GITHUB_TOKEN }}</password>
+                    </server>
+                  </servers>
+                </settings>" > ~/.m2/settings.xml
       - name: Build app
         run: |
           mvn clean
