@@ -6,7 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ua.kpi.edutrackeradmin.repository.ManagerRepository;
-import ua.kpi.edutrackeradmin.service.ManagerService;
 import ua.kpi.edutrackerentity.entity.Manager;
 import ua.kpi.edutrackerentity.entity.enums.Role;
 
