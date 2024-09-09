@@ -28,7 +28,6 @@ jobs:
                 </settings>" > ~/.m2/settings.xml
       - name: Substitute environment variables in application.yaml
         run: |
-          cp application.yaml.template application.yaml
           sed -i 's/${DB_HOST}/${{ secrets.DB_HOST }}/g' application.yaml
           sed -i 's/${DB_USERNAME}/${{ secrets.DB_USERNAM}}/g' application.yaml
           sed -i 's/${DB_PASSWORD}/${{ secrets.DB_PASSWOR}}/g' application.yaml
