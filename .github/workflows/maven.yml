@@ -62,10 +62,10 @@ jobs:
             fi
             docker pull ${{ secrets.secret_name_docker_hub_lower_case }}/spacelab-students:latest
             
-            sed -i 's|${DB_HOST}|'"${{ secrets.DB_HOST }}"'|g' src/main/resources/application.yaml
-            sed -i 's|${DB_USERNAME}|'"${{ secrets.DB_USERNAME }}"'|g' src/main/resources/application.yaml
-            sed -i 's|${DB_PASSWORD}|'"${{ secrets.DB_PASSWORD }}"'|g' src/main/resources/application.yaml
-            sed -i 's|${SG_KEY}|'"${{ secrets.SG_KEY }}"'|g' src/main/resources/application.yaml
-            sed -i 's|${SG_FROM}|'"${{ secrets.SG_FROM }}"'|g' src/main/resources/application.yaml
+            sed -i 's|${DB_HOST}|'"${{ secrets.DB_HOST }}"'|g' BOOT-INF\classes\application.yaml
+            sed -i 's|${DB_USERNAME}|'"${{ secrets.DB_USERNAME }}"'|g' BOOT-INF\classes\application.yaml
+            sed -i 's|${DB_PASSWORD}|'"${{ secrets.DB_PASSWORD }}"'|g' BOOT-INF\classes\application.yaml
+            sed -i 's|${SG_KEY}|'"${{ secrets.SG_KEY }}"'|g' BOOT-INF\classes\application.yaml
+            sed -i 's|${SG_FROM}|'"${{ secrets.SG_FROM }}"'|g' BOOT-INF\classes\application.yaml
 
             docker run -d -p 7655:8081 --name slj-edutracker-admin --network slj-edutracker-network ${{ secrets.secret_name_docker_hub_lower_case }}/spacelab-students:latest
