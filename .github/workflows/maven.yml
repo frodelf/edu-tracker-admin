@@ -28,12 +28,11 @@ jobs:
                 </settings>" > ~/.m2/settings.xml
       - name: Substitute environment variables in application.yaml
         run: |
-          sed -i 's/${DB_HOST}/${{ secrets.DB_HOST }}/g' application.yaml
-          sed -i 's/${DB_USERNAME}/${{ secrets.DB_USERNAM}}/g' application.yaml
-          sed -i 's/${DB_PASSWORD}/${{ secrets.DB_PASSWOR}}/g' application.yaml
-          sed -i 's/${SG_KEY}/${{ secrets.SG_KEY }}/g' application.yaml
-          sed -i 's/${SG_FROM}/${{ secrets.SG_FROM }}/g' application.yaml
-
+          sed -i 's/${DB_HOST}/${{ secrets.DB_HOST }}/g' src/main/resources/application.yaml
+          sed -i 's/${DB_USERNAME}/${{ secrets.DB_USERNAM}}/g' src/main/resources/application.yaml
+          sed -i 's/${DB_PASSWORD}/${{ secrets.DB_PASSWOR}}/g' src/main/resources/application.yaml
+          sed -i 's/${SG_KEY}/${{ secrets.SG_KEY }}/g' src/main/resources/application.yaml
+          sed -i 's/${SG_FROM}/${{ secrets.SG_FROM }}/g' src/main/resources/application.yaml
       - name: Build app
         run: |
           mvn clean
