@@ -100,7 +100,7 @@
         <dependency>
             <groupId>com.github.frodelf</groupId>
             <artifactId>edu-tracker-entity</artifactId>
-            <version>0.0.1</version>
+            <version>-1f6a867d09-1</version>
         </dependency>
 
 
