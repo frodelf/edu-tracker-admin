@@ -31,9 +31,8 @@
     </properties>
     <repositories>
         <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/frodelf/edu-tracker-entity</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
     <dependencies>
@@ -99,7 +98,7 @@
 
 
         <dependency>
-            <groupId>ua.kpi</groupId>
+            <groupId>com.github.frodelf</groupId>
             <artifactId>edu-tracker-entity</artifactId>
             <version>0.0.1</version>
         </dependency>
