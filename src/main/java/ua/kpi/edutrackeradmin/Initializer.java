@@ -24,14 +24,6 @@ public class Initializer implements CommandLineRunner {
             manager.setPassword(new BCryptPasswordEncoder().encode("admin"));
             manager.setRole(Role.ROLE_ADMIN);
             managerRepository.save(manager);
-
-            Manager manager1 = new Manager();
-            manager1.setLastName("Test");
-            manager1.setName("Manager");
-            manager1.setEmail("manager@gmail.com");
-            manager1.setPassword(new BCryptPasswordEncoder().encode("manager"));
-            manager1.setRole(Role.ROLE_MANAGER);
-            managerRepository.save(manager1);
         }
     }
 }
