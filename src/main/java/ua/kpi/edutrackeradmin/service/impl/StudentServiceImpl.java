@@ -40,7 +40,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Page<Map<String, String>> getAllByGroupForSelect(ForSelect2Dto forSelect2Dto) {
-        Pageable pageable = PageRequest.of(forSelect2Dto.getPage(), forSelect2Dto.getSize(), Sort.by(Sort.Order.desc("id")));
+        Pageable pageable = PageRequest.of(forSelect2Dto.getPage(), forSelect2Dto.getSize(), Sort.unsorted());
         Page<String> groups = studentRepository.findAllGroupNamesByGroupNameLikeIgnoreCase(forSelect2Dto.getQuery(), pageable);
         List<Map<String, String>> list = new ArrayList<>();
         for (String group : groups.getContent()) {

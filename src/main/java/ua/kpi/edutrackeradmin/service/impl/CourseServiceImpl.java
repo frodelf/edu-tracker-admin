@@ -51,6 +51,7 @@ public class CourseServiceImpl implements CourseService {
     public Long add(CourseRequestForAdd courseRequestForAdd) {
         Course course = courseMapper.toEntityForAdd(courseRequestForAdd, this, professorService, studentService);
         if(courseRequestForAdd.getImage() != null)course.setImage(minioService.putMultipartFile(courseRequestForAdd.getImage()));
+        course.setStatusCourse(StatusCourse.ACTIVE);
         return save(course).getId();
     }
     @Override
