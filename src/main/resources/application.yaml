@@ -15,7 +15,6 @@ spring:
 server:
   servlet:
     context-path: /edu-tracker/admin/
-  port: 8081
 
 minio:
   accessKey: admin
