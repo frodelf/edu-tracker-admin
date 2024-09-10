@@ -1,14 +1,6 @@
-//TODO Видалити це
-var fullContextPath = 'http://localhost:8080/edu-tracker/teach/';
+var fullContextPath = 'http://slj.demodev.cc:7655/edu-tracker/admin/'
 
 $(document).ready(function () {
-    //TODO Видалити це///////////////////////////////
-    $("#username").val("admin@gmail.com")
-    $("#password").val("admin")
-    $("#login").click()
-    /////////////////////////////////////////////////
-
-
     if(window.location.href.includes("error")){
         $("#password-eye").css("border-color", "#ff0000")
         $("#password").css("border-color", "#ff0000")
