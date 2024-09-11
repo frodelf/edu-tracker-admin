@@ -25,6 +25,7 @@ import ua.kpi.edutrackeradmin.service.EmailService;
 import ua.kpi.edutrackeradmin.service.ManagerService;
 import ua.kpi.edutrackeradmin.specification.ManagerSpecification;
 import ua.kpi.edutrackerentity.entity.Manager;
+import ua.kpi.edutrackerentity.entity.enums.Role;
 
 import java.security.SecureRandom;
 
@@ -82,6 +83,7 @@ public class ManagerServiceImpl implements ManagerService {
     public Long add(ManagerRequestForAdd managerRequestForAdd) {
         Manager manager = managerMapper.toEntityForAdd(managerRequestForAdd, this);
         manager.setPassword(new BCryptPasswordEncoder().encode(generateAndSendPassword(manager.getEmail())));
+        manager.setRole(Role.ROLE_MANAGER);
         return save(manager).getId();
     }
     @Override
