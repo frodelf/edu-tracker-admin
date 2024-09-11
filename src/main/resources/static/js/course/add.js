@@ -59,9 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
 function save() {
 
     if((!($("#groupForStudentAdding").val()) || $("#groupForStudentAdding").val().length==0) && !course) {
-            showErrorToast("Виберіть групу")
+            showErrorToast("Спершу додайте студентів")
             return
     }
+
     showLoader("content-form")
     let formData = new FormData()
     if(courseId)formData.append("id", courseId)
@@ -72,7 +73,7 @@ function save() {
         formData.append("image", $("#image")[0].files[0])
     }
     if(!course)formData.append("groups", $("#groupForStudentAdding").val())
-    formData.append("professorId", $("#professorId").val())
+    if($("#professorId").val())formData.append("professorId", $("#professorId").val())
     formData.append("isForChoosing", $('#isForChoosing').is(':checked'))
 
     $.ajax({
