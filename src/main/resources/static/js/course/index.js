@@ -15,18 +15,22 @@ function getPageWithFilter(page) {
             query: query
         },
         success: function (courses) {
-            var content = ``
-            for (var i = 0; i < courses.content.length; i++) {
-                if (i === 0) content += `<div class="row mt-0 gy-4">`
-                else if (i % 2 === 0) content += `</div><div class="row mt-0 gy-4">`
-                content += addBlock(courses.content[i])
-                if (i === courses.content.length - 1) {
-                    content += `</div>`
-                    $("#courses").html(content)
+            if(courses.content.length == 0){
+                $("#courses").html('')
+            }else {
+                var content = ``
+                for (var i = 0; i < courses.content.length; i++) {
+                    if (i === 0) content += `<div class="row mt-0 gy-4">`
+                    else if (i % 2 === 0) content += `</div><div class="row mt-0 gy-4">`
+                    content += addBlock(courses.content[i])
+                    if (i === courses.content.length - 1) {
+                        content += `</div>`
+                        $("#courses").html(content)
 
-                    $('#pagination_container').empty();
-                    if (courses.totalPages > 1) updatePagination(page, courses.totalPages, 'pagination_container')
-                    return
+                        $('#pagination_container').empty();
+                        if (courses.totalPages > 1) updatePagination(page, courses.totalPages, 'pagination_container')
+                        return
+                    }
                 }
             }
         },
