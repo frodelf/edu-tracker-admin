@@ -16,7 +16,7 @@ spring:
       repositories:
         enabled: true
       cluster-nodes: slj-edutracker-elasticsearch:9200
-      cluster-name: slj-edutracker-elasticsearch
+      cluster-name: docker-cluster
 
 server:
   servlet:
