@@ -11,6 +11,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      cluster-nodes: slj-edutracker-elasticsearch:9200
+      cluster-name: slj-edutracker-elasticsearch
 
 server:
   servlet:
@@ -25,3 +31,4 @@ sendgrid:
   api:
     key: ${SG_KEY}
     from: ${SG_FROM}
+
