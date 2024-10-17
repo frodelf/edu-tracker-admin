@@ -12,21 +12,19 @@ import org.springframework.stereotype.Service;
 import ua.kpi.edutrackeradmin.dto.course.CourseRequestForAdd;
 import ua.kpi.edutrackeradmin.dto.course.CourseResponseForAdd;
 import ua.kpi.edutrackeradmin.dto.course.CourseResponseViewAll;
-import ua.kpi.edutrackeradmin.elasticsearch.CourseElasticsearchRepository;
-import ua.kpi.edutrackeradmin.elasticsearch.CourseIndex;
 import ua.kpi.edutrackeradmin.mapper.CourseMapper;
 import ua.kpi.edutrackeradmin.repository.CourseRepository;
 import ua.kpi.edutrackeradmin.service.CourseService;
 import ua.kpi.edutrackeradmin.service.MinioService;
 import ua.kpi.edutrackeradmin.service.ProfessorService;
 import ua.kpi.edutrackeradmin.service.StudentService;
+import ua.kpi.edutrackeradmin.specification.CourseSpecification;
 import ua.kpi.edutrackerentity.entity.Course;
 import ua.kpi.edutrackerentity.entity.enums.StatusCourse;
 
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
-    private final CourseElasticsearchRepository courseElasticsearchRepository;
     private final CourseRepository courseRepository;
     private final ProfessorService professorService;
     private final StudentService studentService;
@@ -34,9 +32,9 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper = new CourseMapper();
     @Override
     public Page<CourseResponseViewAll> getAll(int page, int pageSize, String query) {
-        Pageable pageable = PageRequest.of(page, pageSize);
-        Page<CourseIndex> courseIndices = courseElasticsearchRepository.searchByPrefixOrMatch(query, pageable);
-        return courseMapper.toDtoListForView(courseIndices, minioService, this);
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("id")));
+        Specification<Course> specification = new CourseSpecification(query);
+        return courseMapper.toDtoListForView(courseRepository.findAll(specification, pageable), minioService);
     }
     @Override
     public Course getById(Long courseId) {

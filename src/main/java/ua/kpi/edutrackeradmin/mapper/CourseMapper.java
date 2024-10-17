@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageImpl;
 import ua.kpi.edutrackeradmin.dto.course.CourseRequestForAdd;
 import ua.kpi.edutrackeradmin.dto.course.CourseResponseForAdd;
 import ua.kpi.edutrackeradmin.dto.course.CourseResponseViewAll;
-import ua.kpi.edutrackeradmin.elasticsearch.CourseIndex;
 import ua.kpi.edutrackeradmin.service.CourseService;
 import ua.kpi.edutrackeradmin.service.MinioService;
 import ua.kpi.edutrackeradmin.service.ProfessorService;
@@ -34,10 +33,10 @@ public class CourseMapper {
             courseResponseViewAll.setImage(minioService.getUrl(course.getImage()));
         return courseResponseViewAll;
     }
-    public Page<CourseResponseViewAll> toDtoListForView(Page<CourseIndex> courses, MinioService minioService, CourseService courseService) {
+    public Page<CourseResponseViewAll> toDtoListForView(Page<Course> courses, MinioService minioService) {
         return new PageImpl<>(
                 courses.getContent().stream()
-                        .map(course -> toDtoForView(courseService.getById(course.getId()), minioService))
+                        .map(course -> toDtoForView(course, minioService))
                         .collect(Collectors.toList()),
                 courses.getPageable(),
                 courses.getTotalElements()
