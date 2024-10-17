@@ -11,6 +11,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  elasticsearch:
+    uris: http://slj-edutracker-elasticsearch:9200
 
 server:
   servlet:
@@ -25,3 +27,4 @@ sendgrid:
   api:
     key: ${SG_KEY}
     from: ${SG_FROM}
+

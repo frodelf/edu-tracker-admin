@@ -15,6 +15,8 @@ function getPageWithFilter(page) {
             query: query
         },
         success: function (courses) {
+            $('#pagination_container').empty();
+
             if(courses.content.length == 0){
                 $("#courses").html('')
             }else {
@@ -27,7 +29,6 @@ function getPageWithFilter(page) {
                         content += `</div>`
                         $("#courses").html(content)
 
-                        $('#pagination_container').empty();
                         if (courses.totalPages > 1) updatePagination(page, courses.totalPages, 'pagination_container')
                         return
                     }

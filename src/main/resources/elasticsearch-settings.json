@@ -1,0 +1,17 @@
+{
+  "analysis": {
+    "filter": {
+      "ukrainian_stemmer": {
+        "type": "stemmer",
+        "language": "ukrainian"
+      }
+    },
+    "analyzer": {
+      "ukrainian_analyzer": {
+        "type": "custom",
+        "tokenizer": "standard",
+        "filter": ["lowercase", "ukrainian_stemmer"]
+      }
+    }
+  }
+}
