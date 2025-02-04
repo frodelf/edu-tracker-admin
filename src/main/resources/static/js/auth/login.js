@@ -1,4 +1,4 @@
-var fullContextPath = 'http://slj.demodev.cc:7655/edu-tracker/admin/'
+var fullContextPath = 'http://localhost:8080/edu-tracker/admin/'
 
 $(document).ready(function () {
     if(window.location.href.includes("error")){
