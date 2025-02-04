@@ -1,4 +1,4 @@
-var fullContextPath = 'http://localhost:8080/edu-tracker/admin/'
+var fullContextPath = 'http://'+host+':'+port+contextPath
 var messageForDelete = "Об'єкт успішно видалено"
 var messageForSave = "Об'єкт успішно збережено"
 var pageSize = 10

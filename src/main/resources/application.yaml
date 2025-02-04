@@ -11,12 +11,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-  elasticsearch:
-    uris: http://slj-edutracker-elasticsearch:9200
 
 server:
   servlet:
     context-path: /edu-tracker/admin/
+    host: slj.demodev.cc
+  port: 7655
 
 minio:
   accessKey: admin
@@ -27,4 +27,3 @@ sendgrid:
   api:
     key: ${SG_KEY}
     from: ${SG_FROM}
-

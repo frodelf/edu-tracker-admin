@@ -1,4 +1,4 @@
-var fullContextPath = 'http://localhost:8080/edu-tracker/admin/'
+var fullContextPath = 'http://'+host+':'+port+contextPath
 
 $(document).ready(function () {
     if(window.location.href.includes("error")){
