@@ -1,4 +1,3 @@
-var fullContextPath = 'http://'+host+':'+port+contextPath
 var messageForDelete = "Об'єкт успішно видалено"
 var messageForSave = "Об'єкт успішно збережено"
 var pageSize = 10
@@ -14,6 +13,7 @@ var nameForAvatar = managerAuth ?
     : null;
 
 $(document).ready(function () {
+    var fullContextPath = 'http://'+host+':'+port+contextPath
     var inputForFilter = $('.for-filter')
     let timeout = null
     $('#clean-all-input-for-filtering').click(function () {
