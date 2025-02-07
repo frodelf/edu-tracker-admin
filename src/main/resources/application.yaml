@@ -2,9 +2,9 @@ spring:
   application:
     name: edu-tracker-admin
   datasource:
-    url: ${DB_HOST}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/edutracker
+    username: root
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     generate-ddl: true
@@ -15,8 +15,8 @@ spring:
 server:
   servlet:
     context-path: /edu-tracker/admin/
-    host: slj.demodev.cc
-  port: 7655
+  host: localhost
+  port: 8080
 
 minio:
   accessKey: admin
