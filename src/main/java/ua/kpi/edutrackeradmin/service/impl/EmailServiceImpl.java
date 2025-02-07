@@ -26,6 +26,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendEmail(String subject, String text, String toEmail) {
+        log.info("EmailServiceImpl sendEmail start");
         Email from = new Email(fromEmail);
         Email to = new Email(toEmail);
         Content content = new Content("text/plain", text);
@@ -39,8 +40,10 @@ public class EmailServiceImpl implements EmailService {
             request.setBody(mail.build());
             Response response = sendGrid.api(request);
             int status = response.getStatusCode();
-            System.out.println(status);
+            log.info("EmailServiceImpl sendEmail response status: {}", status);
         } catch (IOException ex) {
+            log.error("EmailServiceImpl sendEmail failed - to: {}, subject: {}, error: {}", toEmail, subject, ex.getMessage(), ex);
         }
+        log.info("EmailServiceImpl sendEmail finish");
     }
 }

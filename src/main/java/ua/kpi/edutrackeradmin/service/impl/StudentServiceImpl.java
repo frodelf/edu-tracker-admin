@@ -2,6 +2,7 @@ package ua.kpi.edutrackeradmin.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
@@ -40,6 +42,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Page<Map<String, String>> getAllByGroupForSelect(ForSelect2Dto forSelect2Dto) {
+        log.info("StudentServiceImpl getAllByGroupForSelect start");
         Pageable pageable = PageRequest.of(forSelect2Dto.getPage(), forSelect2Dto.getSize(), Sort.unsorted());
         Page<String> groups = studentRepository.findAllGroupNamesByGroupNameLikeIgnoreCase(forSelect2Dto.getQuery(), pageable);
         List<Map<String, String>> list = new ArrayList<>();
@@ -48,24 +51,32 @@ public class StudentServiceImpl implements StudentService {
             map.put(group, group);
             list.add(map);
         }
+        log.info("StudentServiceImpl getAllByGroupForSelect finish");
         return new PageImpl<>(list, pageable, groups.getTotalElements());
     }
 
     @Override
     public List<Student> getAllStudentsByGroup(String groupName) {
-        return studentRepository.findAllByGroupName(groupName);
+        log.info("StudentServiceImpl getAllStudentsByGroup start");
+        List<Student> students = studentRepository.findAllByGroupName(groupName);
+        log.info("StudentServiceImpl getAllStudentsByGroup finish");
+        return students;
     }
 
     @Override
     public Page<StudentResponseForViewAll> getAll(StudentRequestForFilter studentRequestForFilter) {
+        log.info("StudentServiceImpl getAll start");
         Pageable pageable = PageRequest.of(studentRequestForFilter.getPage(), studentRequestForFilter.getPageSize(), Sort.by(Sort.Order.desc("id")));
         Specification<Student> specification = new StudentSpecification(studentRequestForFilter);
-        return studentMapper.toDtoList(studentRepository.findAll(specification, pageable));
+        Page<StudentResponseForViewAll> response = studentMapper.toDtoList(studentRepository.findAll(specification, pageable));
+        log.info("StudentServiceImpl getAll finish");
+        return response;
     }
 
     @Override
     @Transactional
     public void addAllFromFile(MultipartFile multipartFile) throws IOException {
+        log.info("StudentServiceImpl addAllFromFile start");
         Workbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
         for (Row row : sheet) {
@@ -111,14 +122,18 @@ public class StudentServiceImpl implements StudentService {
             save(student);
         }
         workbook.close();
+        log.info("StudentServiceImpl addAllFromFile finish");
     }
 
     @Override
     public void save(Student student) {
+        log.info("StudentServiceImpl save start");
         studentRepository.save(student);
+        log.info("StudentServiceImpl save finish");
     }
 
     private String generateAndSendPassword(String email) {
+        log.info("StudentServiceImpl generateAndSendPassword start");
         SecureRandom random = new SecureRandom();
         StringBuilder password = new StringBuilder(8);
 
@@ -128,6 +143,7 @@ public class StudentServiceImpl implements StudentService {
         }
         String passwordText = password.toString();
         emailService.sendEmail("password", passwordText, email);
+        log.info("StudentServiceImpl generateAndSendPassword finish");
         return passwordText;
     }
 }
