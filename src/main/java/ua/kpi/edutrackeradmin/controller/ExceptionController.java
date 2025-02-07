@@ -16,8 +16,4 @@ public class ExceptionController {
     public ModelAndView accessDenied() {
         return new ModelAndView("error/access_denied", "message", "You don't have access to this page");
     }
-    @org.springframework.web.bind.annotation.ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> illegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-    }
 }
