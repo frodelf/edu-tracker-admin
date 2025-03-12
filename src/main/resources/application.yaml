@@ -2,21 +2,21 @@ spring:
   application:
     name: edu-tracker-admin
   datasource:
-    url: ${DB_HOST}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/edutracker
+    username: root
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     generate-ddl: true
     show-sql: true
     hibernate:
       ddl-auto: update
-  elasticsearch:
-    uris: http://slj-edutracker-elasticsearch:9200
 
 server:
   servlet:
     context-path: /edu-tracker/admin/
+  host: localhost
+  port: 8080
 
 minio:
   accessKey: admin
@@ -27,4 +27,3 @@ sendgrid:
   api:
     key: ${SG_KEY}
     from: ${SG_FROM}
-
